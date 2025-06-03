@@ -87,8 +87,6 @@ server <- function(input, output, session) {
       
     } else {
       output$tract_output <- renderText({"Address could not be geocoded."})
-      leafletProxy("map") %>%
-        clearMarkers()
     }
   })
   
