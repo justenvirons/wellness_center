@@ -36,9 +36,13 @@ catchment_areas <- community_areas %>%
 
 st_write(catchment_areas, "../layers/catchment_areas.shp")
 
-load()
+study_area_svi_estimates_geom <- tract_boundaries_geom %>% 
+  left_join(study_area_svi_estimates, by=c("geoid_tract"="GEOID")) %>%  
+  st_as_sf() %>% 
+  st_set_crs(3435)
+
 load("wellness_app_data.RData")
-save(chicago, catchment_areas, study_area_svi_estimates, tract_boundaries_geom, study_area_svi_estimates_geom, wellness_center_map, file="wellness_app_data.RData")
+save(chicago, catchment_areas, tract_boundaries_geom, study_area_svi_estimates_geom, wellness_center_map, file="wellness_app_data.RData")
 
 
 ```
@@ -46,11 +50,6 @@ save(chicago, catchment_areas, study_area_svi_estimates, tract_boundaries_geom, 
 # Create Leaflet Map
 
 ```{r}
-study_area_svi_estimates_geom <- tract_boundaries_geom %>% 
-  left_join(study_area_svi_estimates, by=c("geoid_tract"="GEOID")) %>%  
-  st_as_sf() %>% 
-  st_set_crs(3435)
-
 
 # plot state and county maps with leaflet
 wellness_labels <- sprintf(
@@ -102,9 +101,10 @@ wellness_center_map <- leaflet(study_area_svi_estimates_geom %>% st_transform(43
   addMapPane("Census Tracts", zIndex = 410) %>%
   addMapPane("Chicago", zIndex = 460) %>%
   addMapPane("Wellness Center", zIndex = 460) %>% 
-  addProviderTiles(providers$CartoDB.Positron,
-                   group = "Positron (minimal)",
-                   options = pathOptions(pane = "Tiles")) %>%
+  addTiles(options = pathOptions(pane="Tiles")) %>% 
+  # addProviderTiles(providers$CartoDB.Positron,
+                   # group = "Positron (minimal)",
+                   # options = pathOptions(pane = "Tiles")) %>%
   addPolylines(
     data = chicago %>% st_transform(4326),
     stroke = TRUE,
