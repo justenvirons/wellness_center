@@ -101,10 +101,10 @@ wellness_center_map <- leaflet(study_area_svi_estimates_geom %>% st_transform(43
   addMapPane("Census Tracts", zIndex = 410) %>%
   addMapPane("Chicago", zIndex = 460) %>%
   addMapPane("Wellness Center", zIndex = 460) %>% 
-  addTiles(options = pathOptions(pane="Tiles")) %>% 
-  # addProviderTiles(providers$CartoDB.Positron,
-                   # group = "Positron (minimal)",
-                   # options = pathOptions(pane = "Tiles")) %>%
+  # addTiles(options = pathOptions(pane="Tiles")) %>% 
+  addProviderTiles(providers$CartoDB.Positron,
+  group = "Positron (minimal)",
+  options = pathOptions(pane = "Tiles")) %>%
   addPolylines(
     data = chicago %>% st_transform(4326),
     stroke = TRUE,
@@ -150,7 +150,7 @@ wellness_center_map <- leaflet(study_area_svi_estimates_geom %>% st_transform(43
     opacity = 0.5
   ) %>%
   addResetMapButton() %>%
-  addFullscreenControl() %>%
+  # addFullscreenControl() %>%
   addScaleBar(position = "bottomleft") %>% 
   addLayersControl(
     overlayGroups = c("Wellness Center",
