@@ -4,9 +4,7 @@ library(leaflet)
 library(leaflet.extras)
 library(tidygeocoder)
 library(sf)
-library(tigris)
 library(dplyr)
-library(rsconnect)
 
 # Load app data
 load("wellness_app_data.RData")
