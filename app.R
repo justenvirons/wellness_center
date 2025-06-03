@@ -32,17 +32,16 @@ server <- function(input, output, session) {
   observeEvent(input$submit, {
     req(input$address)
     
-    # Geocode address
     result <- tryCatch({
       geo(address = input$address, method = 'osm', lat = latitude, long = longitude, full_results = FALSE)
     }, error = function(e) {
       NULL
     })
     
-    if (!is.null(result) && nrow(result) > 0) {
+    # Validate that result is not NULL and has expected columns
+    if (!is.null(result) && nrow(result) > 0 && !is.na(result$longitude) && !is.na(result$latitude)) {
       coords <- st_as_sf(result, coords = c("longitude", "latitude"), crs = 4326)
       
-      # Spatial join to find census tract
       tract_match <- st_join(coords, catchment_areas, join = st_within)
       
       if (nrow(tract_match) > 0 && !is.na(tract_match$name[1])) {
@@ -54,7 +53,7 @@ server <- function(input, output, session) {
         
         leafletProxy("map") %>%
           clearMarkers() %>%
-          addMarkers(lng = result$longitude, lat = result$latitude, popup = paste("Inside ", tract_id)) %>% 
+          addMarkers(lng = result$longitude, lat = result$latitude, popup = paste("Inside", tract_id)) %>%
           addCircleMarkers(
             lng = -87.73343171837095,
             lat = 41.880466384462274,
@@ -65,13 +64,14 @@ server <- function(input, output, session) {
             group = "Wellness Center",
             fillOpacity = 1,
             options = pathOptions(pane = "Wellness Center")
-          ) 
+          )
         
       } else {
+        output$tract_output <- renderText({"Address is outside designated catchment areas."})
         
         leafletProxy("map") %>%
           clearMarkers() %>%
-          addMarkers(lng = result$longitude, lat = result$latitude) %>% 
+          addMarkers(lng = result$longitude, lat = result$latitude) %>%
           addCircleMarkers(
             lng = -87.73343171837095,
             lat = 41.880466384462274,
@@ -82,29 +82,16 @@ server <- function(input, output, session) {
             group = "Wellness Center",
             fillOpacity = 1,
             options = pathOptions(pane = "Wellness Center")
-          ) 
-        
-        output$tract_output <- renderText({"Address is outside designated catchment areas."})
+          )
       }
+      
     } else {
-      
-      leafletProxy("map") %>%
-        clearMarkers() %>%
-        addCircleMarkers(
-          lng = -87.73343171837095,
-          lat = 41.880466384462274,
-          label = "4305 W Madison",
-          weight = 1,
-          color = "black",
-          fillColor = "darkorange",
-          group = "Wellness Center",
-          fillOpacity = 1,
-          options = pathOptions(pane = "Wellness Center")
-        ) 
-      
       output$tract_output <- renderText({"Address could not be geocoded."})
+      leafletProxy("map") %>%
+        clearMarkers()
     }
   })
+  
 }
 
 shinyApp(ui, server)
