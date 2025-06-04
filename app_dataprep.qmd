@@ -42,7 +42,6 @@ study_area_svi_estimates_geom <- tract_boundaries_geom %>%
   st_as_sf() %>% 
   st_set_crs(3435)
 
-load("wellness_app_data.RData")
 save(chicago, catchment_areas, tract_boundaries_geom, study_area_svi_estimates_geom, wellness_center_map, file="wellness_app_data.RData")
 
 catchment_areas <- catchment_areas %>% 
@@ -55,6 +54,7 @@ catchment_areas <- catchment_areas %>%
 # Create Leaflet Map
 
 ```{r}
+load("wellness_app_data.RData")
 
 # plot state and county maps with leaflet
 wellness_labels <- sprintf(
@@ -107,10 +107,6 @@ wellness_center_map <- leaflet(study_area_svi_estimates_geom %>% st_transform(43
   addMapPane("Chicago", zIndex = 460) %>%
   addMapPane("Wellness Center", zIndex = 460) %>%
   addTiles(urlTemplate = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png") %>% 
-  # addTiles(options = pathOptions(pane="Tiles")) %>% 
-  # addProviderTiles(providers$CartoDB.Positron,
-  # group = "Positron (minimal)",
-  # options = pathOptions(pane = "Tiles")) %>%
   addPolylines(
     data = chicago %>% st_transform(4326),
     stroke = TRUE,
@@ -128,17 +124,6 @@ wellness_center_map <- leaflet(study_area_svi_estimates_geom %>% st_transform(43
     group = "Boundaries",
     options = pathOptions(pane = "Boundaries")
   ) %>%
-  addCircleMarkers(
-    lng = -87.73343171837095,
-    lat = 41.880466384462274,
-    label = "4305 W Madison",
-    weight = 1,
-    color = "black",
-    fillColor = "darkorange",
-    group = "Wellness Center",
-    fillOpacity = 1,
-    options = pathOptions(pane = "Wellness Center")
-  ) %>%
   addPolygons(
     fillColor = ~ pal_wellness(RPL_themes),
     weight = 0.25,
@@ -148,21 +133,12 @@ wellness_center_map <- leaflet(study_area_svi_estimates_geom %>% st_transform(43
     label = wellness_labels,
     options = pathOptions(pane = "Census Tracts")
   ) %>%
-  # addLegend(
-  #   "bottomleft",
-  #   pal = pal_wellness,
-  #   values = ~ RPL_themes,
-  #   title = "SVI Values",
-  #   opacity = 0.5
-  # ) %>%
   addResetMapButton() %>%
-  # addFullscreenControl() %>%
-  addScaleBar(position = "bottomleft") %>% 
-  addLayersControl(
-    overlayGroups = c("Wellness Center",
-                      "Boundaries"),
-    options = layersControlOptions(collapsed = FALSE) 
-  )
+  addScaleBar(position = "bottomleft") 
+  # addLayersControl(
+  #   overlayGroups = c("Boundaries"),
+  #   options = layersControlOptions(collapsed = FALSE) 
+  # )
 
 wellness_center_map
 
