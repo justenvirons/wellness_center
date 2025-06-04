@@ -2502,16 +2502,16 @@
   },
   "files": {
     "app.R": {
-      "checksum": "d784d6496c526fc96259d736976c1d3a"
+      "checksum": "30cbcb451c42b459cad8b3027d1d7852"
     },
     "app_dataprep.qmd": {
-      "checksum": "383782301bde0a646b70054dae8dcf5f"
+      "checksum": "1c1d0643d478ae43d0cf2942663a40fe"
     },
     "README.md": {
       "checksum": "d38436032318db8912cbeb2d430bd887"
     },
     "wellness_app_data.RData": {
-      "checksum": "861f2e956c889e6b9e6d4e3c9804e9a3"
+      "checksum": "f53511cce00e7875d803df2c475f160c"
     }
   },
   "users": null

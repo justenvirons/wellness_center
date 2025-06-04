@@ -7,6 +7,7 @@ editor_options:
 library(shiny)
 library(leaflet)
 library(leaflet.extras)
+library(leaflet.providers)
 library(tidygeocoder)
 library(sf)
 library(tigris)
@@ -43,6 +44,10 @@ study_area_svi_estimates_geom <- tract_boundaries_geom %>%
 
 load("wellness_app_data.RData")
 save(chicago, catchment_areas, tract_boundaries_geom, study_area_svi_estimates_geom, wellness_center_map, file="wellness_app_data.RData")
+
+catchment_areas <- catchment_areas %>% 
+  mutate(name = case_when(name == "Wellness Center Catchment" ~ "Wellness Center",
+                          .default = name))
 
 
 ```
@@ -101,10 +106,10 @@ wellness_center_map <- leaflet(study_area_svi_estimates_geom %>% st_transform(43
   addMapPane("Census Tracts", zIndex = 410) %>%
   addMapPane("Chicago", zIndex = 460) %>%
   addMapPane("Wellness Center", zIndex = 460) %>% 
-  addTiles(options = pathOptions(pane="Tiles")) %>% 
-  # addProviderTiles(providers$CartoDB.Positron,
-  # group = "Positron (minimal)",
-  # options = pathOptions(pane = "Tiles")) %>%
+  # addTiles(options = pathOptions(pane="Tiles")) %>% 
+  addProviderTiles(providers$CartoDB.Positron,
+  group = "Positron (minimal)",
+  options = pathOptions(pane = "Tiles")) %>%
   addPolylines(
     data = chicago %>% st_transform(4326),
     stroke = TRUE,

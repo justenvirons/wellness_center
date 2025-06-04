@@ -1,7 +1,9 @@
 # Load required packages
+# rsconnect::writeManifest()
 library(shiny)
 library(leaflet)
 library(leaflet.extras)
+library(leaflet.providers)
 library(tidygeocoder)
 library(sf)
 library(dplyr)
@@ -48,12 +50,12 @@ server <- function(input, output, session) {
         tract_id <- tract_match$name[1]
         
         output$tract_output <- renderText({
-          paste("Catchment Area Name:", tract_id)
+          paste0("Address is inside ", tract_id," boundary")
         })
         
         leafletProxy("map") %>%
           clearMarkers() %>%
-          addMarkers(lng = result$longitude, lat = result$latitude, popup = paste("Inside", tract_id)) %>%
+          addMarkers(lng = result$longitude, lat = result$latitude, popup = paste0("Inside ", tract_id," boundary")) %>%
           addCircleMarkers(
             lng = -87.73343171837095,
             lat = 41.880466384462274,
@@ -67,7 +69,7 @@ server <- function(input, output, session) {
           )
         
       } else {
-        output$tract_output <- renderText({"Address is outside designated catchment areas."})
+        output$tract_output <- renderText({"Address is outside recruitment boundaries."})
         
         leafletProxy("map") %>%
           clearMarkers() %>%
