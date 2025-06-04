@@ -37,7 +37,7 @@ server <- function(input, output, session) {
     req(input$address)
     
     result <- tryCatch({
-      geo(address = input$address, method = 'osm', lat = latitude, long = longitude, full_results = FALSE)
+      geo(address = input$address, method = 'census', lat = latitude, long = longitude, full_results = FALSE)
     }, error = function(e) {
       NULL
     })
@@ -58,18 +58,7 @@ server <- function(input, output, session) {
         leafletProxy("map") %>%
           setView(lng = result$longitude, lat = result$latitude, zoom = 12) %>% 
           clearMarkers() %>%
-          addMarkers(lng = result$longitude, lat = result$latitude, popup = paste0("Inside ", tract_id," boundary")) %>%
-          addCircleMarkers(
-            lng = -87.73343171837095,
-            lat = 41.880466384462274,
-            label = "4305 W Madison",
-            weight = 1,
-            color = "black",
-            fillColor = "darkorange",
-            group = "Wellness Center",
-            fillOpacity = 1,
-            options = pathOptions(pane = "Wellness Center")
-          )
+          addMarkers(lng = result$longitude, lat = result$latitude, popup = paste0("Inside ", tract_id," boundary")) 
         
       } else {
         output$tract_output <- renderText({"Address is OUTSIDE the boundary."})
@@ -77,18 +66,7 @@ server <- function(input, output, session) {
         leafletProxy("map") %>%
           setView(lng = result$longitude, lat = result$latitude, zoom = 12) %>% 
           clearMarkers() %>%
-          addMarkers(lng = result$longitude, lat = result$latitude) %>%
-          addCircleMarkers(
-            lng = -87.73343171837095,
-            lat = 41.880466384462274,
-            label = "4305 W Madison",
-            weight = 1,
-            color = "black",
-            fillColor = "darkorange",
-            group = "Wellness Center",
-            fillOpacity = 1,
-            options = pathOptions(pane = "Wellness Center")
-          )
+          addMarkers(lng = result$longitude, lat = result$latitude) 
       }
       
     } else {
