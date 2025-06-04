@@ -105,8 +105,9 @@ wellness_center_map <- leaflet(study_area_svi_estimates_geom %>% st_transform(43
   addMapPane("Boundaries", zIndex = 420) %>%
   addMapPane("Census Tracts", zIndex = 410) %>%
   addMapPane("Chicago", zIndex = 460) %>%
-  addMapPane("Wellness Center", zIndex = 460) %>% 
-  addTiles(options = pathOptions(pane="Tiles")) %>% 
+  addMapPane("Wellness Center", zIndex = 460) %>%
+  addTiles(urlTemplate = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png") %>% 
+  # addTiles(options = pathOptions(pane="Tiles")) %>% 
   # addProviderTiles(providers$CartoDB.Positron,
   # group = "Positron (minimal)",
   # options = pathOptions(pane = "Tiles")) %>%
