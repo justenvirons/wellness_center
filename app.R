@@ -87,6 +87,23 @@ server <- function(input, output, session) {
       
     } else {
       output$tract_output <- renderText({"Address could not be geocoded."})
+      
+      
+      leafletProxy("map") %>%
+        clearMarkers() %>%
+        addMarkers(lng = result$longitude, lat = result$latitude) %>%
+        addCircleMarkers(
+          lng = -87.73343171837095,
+          lat = 41.880466384462274,
+          label = "4305 W Madison",
+          weight = 1,
+          color = "black",
+          fillColor = "darkorange",
+          group = "Wellness Center",
+          fillOpacity = 1,
+          options = pathOptions(pane = "Wellness Center")
+        )
+      
     }
   })
   
