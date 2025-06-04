@@ -125,7 +125,7 @@ wellness_center_map <- leaflet(study_area_svi_estimates_geom %>% st_transform(43
     weight = 3,
     opacity = 1,
     color = "darkred",
-    group = "Catchment Areas",
+    group = "Boundaries",
     options = pathOptions(pane = "Boundaries")
   ) %>%
   addCircleMarkers(
