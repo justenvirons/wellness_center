@@ -97,14 +97,14 @@ wellness_center_map <- leaflet(study_area_svi_estimates_geom %>% st_transform(43
           lat = 41.823572770941,
           zoom = 12) %>%
   addMapPane("Tiles", zIndex = 400)  %>%
-  addMapPane("Catchment Areas", zIndex = 420) %>%
+  addMapPane("Boundaries", zIndex = 420) %>%
   addMapPane("Census Tracts", zIndex = 410) %>%
   addMapPane("Chicago", zIndex = 460) %>%
   addMapPane("Wellness Center", zIndex = 460) %>% 
-  addTiles(options = pathOptions(pane="Tiles")) %>% 
-  # addProviderTiles(providers$CartoDB.Positron,
-  # group = "Positron (minimal)",
-  # options = pathOptions(pane = "Tiles")) %>%
+  # addTiles(options = pathOptions(pane="Tiles")) %>% 
+  addProviderTiles(providers$CartoDB.Positron,
+  group = "Positron (minimal)",
+  options = pathOptions(pane = "Tiles")) %>%
   addPolylines(
     data = chicago %>% st_transform(4326),
     stroke = TRUE,
@@ -120,7 +120,7 @@ wellness_center_map <- leaflet(study_area_svi_estimates_geom %>% st_transform(43
     opacity = 1,
     color = "darkred",
     group = "Catchment Areas",
-    options = pathOptions(pane = "Catchment Areas")
+    options = pathOptions(pane = "Boundaries")
   ) %>%
   addCircleMarkers(
     lng = -87.73343171837095,
@@ -142,19 +142,19 @@ wellness_center_map <- leaflet(study_area_svi_estimates_geom %>% st_transform(43
     label = wellness_labels,
     options = pathOptions(pane = "Census Tracts")
   ) %>%
-  addLegend(
-    "bottomleft",
-    pal = pal_wellness,
-    values = ~ RPL_themes,
-    title = "SVI Values",
-    opacity = 0.5
-  ) %>%
+  # addLegend(
+  #   "bottomleft",
+  #   pal = pal_wellness,
+  #   values = ~ RPL_themes,
+  #   title = "SVI Values",
+  #   opacity = 0.5
+  # ) %>%
   addResetMapButton() %>%
   # addFullscreenControl() %>%
   addScaleBar(position = "bottomleft") %>% 
   addLayersControl(
     overlayGroups = c("Wellness Center",
-                      "Catchment Areas"),
+                      "Boundaries"),
     options = layersControlOptions(collapsed = FALSE) 
   )
 
