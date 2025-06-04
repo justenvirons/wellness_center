@@ -69,7 +69,7 @@ server <- function(input, output, session) {
           )
         
       } else {
-        output$tract_output <- renderText({"Address is outside recruitment boundaries."})
+        output$tract_output <- renderText({"Address is outside of our study area. Sorry that you are not eligible to participate"})
         
         leafletProxy("map") %>%
           clearMarkers() %>%
