@@ -17,7 +17,9 @@ ui <- fluidPage(
     sidebarPanel(
       textInput("address", "Enter address (e.g., 4305 W Madison St, Chicago, IL 60624):", ""),
       actionButton("submit", "Submit"),
-      verbatimTextOutput("tract_output")
+      # verbatimTextOutput("tract_output")
+      div(style = "white-space: normal; word-wrap: break-word; margin-top: 10px; font-style: italic;",
+          textOutput("tract_output"))
     ),
     mainPanel(
       leafletOutput("map", height = 600)
