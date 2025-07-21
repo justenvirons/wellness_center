@@ -15,7 +15,7 @@ ui <- fluidPage(
   # titlePanel("Recruitment Address Screener App"),
   sidebarLayout(
     sidebarPanel(
-      textInput("address", "Enter address:", ""),
+      textInput("address", "Enter address (e.g., 4305 W Madison St, Chicago, IL 60624):", ""),
       actionButton("submit", "Submit"),
       # verbatimTextOutput("tract_output")
       div(style = "white-space: normal; word-wrap: break-word; margin-top: 10px; font-style: italic;",
@@ -56,7 +56,7 @@ server <- function(input, output, session) {
         })
         
         leafletProxy("map") %>%
-          setView(lng = result$longitude, lat = result$latitude, zoom = 12) %>% 
+          setView(lng = result$longitude, lat = result$latitude, zoom = 11) %>% 
           clearMarkers() %>%
           addMarkers(lng = result$longitude, lat = result$latitude, popup = paste0("Inside ", tract_id," boundary")) 
         
@@ -64,7 +64,7 @@ server <- function(input, output, session) {
         output$tract_output <- renderText({"Address is OUTSIDE the boundary."})
         
         leafletProxy("map") %>%
-          setView(lng = result$longitude, lat = result$latitude, zoom = 12) %>% 
+          setView(lng = result$longitude, lat = result$latitude, zoom = 11) %>% 
           clearMarkers() %>%
           addMarkers(lng = result$longitude, lat = result$latitude) 
       }

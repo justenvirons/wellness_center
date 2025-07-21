@@ -102,7 +102,7 @@ centerIcon <- makeIcon(
 wellness_center_map <- leaflet(study_area_svi_estimates_geom %>% st_transform(4326)) %>%
   setView(lng = -87.66335506598715,
           lat = 41.823572770941,
-          zoom = 12) %>%
+          zoom = 11) %>%
   addMapPane("Tiles", zIndex = 400)  %>%
   addMapPane("Boundaries", zIndex = 420) %>%
   addMapPane("Census Tracts", zIndex = 410) %>%
