@@ -52,7 +52,7 @@ server <- function(input, output, session) {
         tract_id <- tract_match$name[1]
         
         output$tract_output <- renderText({
-          paste0("Address is INSIDE the ", tract_id," boundary")
+          paste0("Yes! This address is within the study boundary.")
         })
         
         leafletProxy("map") %>%
@@ -61,7 +61,7 @@ server <- function(input, output, session) {
           addMarkers(lng = result$longitude, lat = result$latitude, popup = paste0("Inside ", tract_id," boundary")) 
         
       } else {
-        output$tract_output <- renderText({"Address is OUTSIDE the boundary."})
+        output$tract_output <- renderText({"We are sorry but this address does not qualify for the study."})
         
         leafletProxy("map") %>%
           setView(lng = result$longitude, lat = result$latitude, zoom = 11) %>% 
