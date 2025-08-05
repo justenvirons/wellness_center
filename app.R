@@ -21,8 +21,11 @@ ui <- fluidPage(
       div(style = "white-space: normal; word-wrap: break-word; margin-top: 10px; font-style: italic;",
           textOutput("tract_output"))
     ),
+    # mainPanel(
+    #   leafletOutput("map", height = 600)
+    # )
+    
     mainPanel(
-      leafletOutput("map", height = 600)
     )
   )
 )
