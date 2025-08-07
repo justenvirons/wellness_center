@@ -13,26 +13,21 @@ load("wellness_app_data.RData")
 
 ui <- fluidPage(
   # titlePanel("Recruitment Address Screener App"),
-  # sidebarLayout(
-  #   sidebarPanel(
-  #     textInput("address", "Enter address (e.g., 4305 W Madison St, Chicago):", ""),
-  #     actionButton("submit", "Submit"),
-  #     # verbatimTextOutput("tract_output")
-  #     div(style = "white-space: normal; word-wrap: break-word; margin-top: 10px; font-style: italic;",
-  #         textOutput("tract_output"))
-  #   ),
-    # mainPanel(
-    #   leafletOutput("map", height = 600)
-    # )
-    
-    mainPanel(
+  sidebarLayout(
+    sidebarPanel(
       textInput("address", "Enter address (e.g., 4305 W Madison St, Chicago):", ""),
       actionButton("submit", "Submit"),
       # verbatimTextOutput("tract_output")
       div(style = "white-space: normal; word-wrap: break-word; margin-top: 10px; font-style: italic;",
           textOutput("tract_output"))
+    ),
+    # mainPanel(
+    #   leafletOutput("map", height = 600)
+    # )
+    
+    mainPanel(
     )
-  # )
+  )
 )
 
 server <- function(input, output, session) {
